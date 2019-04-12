@@ -1,0 +1,1315 @@
+{
+
+  "openapi" : "3.0.1",
+
+  "info" : {
+
+    "title" : "Bike Inventory API",
+
+    "description" : "SVE2 Bike Inventory",
+
+    "contact" : {
+
+      "email" : "dmitriy.purgin@students.fh-hagenberg.at"
+
+    },
+
+    "version" : "1.0"
+
+  },
+
+  "paths" : {
+
+    "/bike/{bikeId}/component/{componentId}" : {
+
+      "put" : {
+
+        "summary" : "Add a component to the list of components fit to a bike",
+
+        "operationId" : "fitComponentToBike",
+
+        "parameters" : [ {
+
+          "name" : "bikeId",
+
+          "in" : "path",
+
+          "required" : true,
+
+          "schema" : {
+
+            "type" : "integer",
+
+            "format" : "int64"
+
+          }
+
+        }, {
+
+          "name" : "componentId",
+
+          "in" : "path",
+
+          "required" : true,
+
+          "schema" : {
+
+            "type" : "integer",
+
+            "format" : "int64"
+
+          }
+
+        } ],
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "Component was added to the list of fit components"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "404 Not Found" : {
+
+            "description" : "Component or bike are not registered"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      },
+
+      "delete" : {
+
+        "summary" : "Remove a component from the list of components fit to a bike",
+
+        "operationId" : "removeComponentFromBike",
+
+        "parameters" : [ {
+
+          "name" : "bikeId",
+
+          "in" : "path",
+
+          "required" : true,
+
+          "schema" : {
+
+            "type" : "integer",
+
+            "format" : "int64"
+
+          }
+
+        }, {
+
+          "name" : "componentId",
+
+          "in" : "path",
+
+          "required" : true,
+
+          "schema" : {
+
+            "type" : "integer",
+
+            "format" : "int64"
+
+          }
+
+        } ],
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "Component was removed from the list of fit components"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "404 Not Found" : {
+
+            "description" : "Component or bike are not registered"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/bike" : {
+
+      "get" : {
+
+        "summary" : "Find all bikes created by the current user",
+
+        "operationId" : "getBikes",
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "List of found objects"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/BikeResponseDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      },
+
+      "post" : {
+
+        "summary" : "Create a new bike belonging to the current user",
+
+        "operationId" : "insertBike",
+
+        "requestBody" : {
+
+          "content" : {
+
+            "application/json" : {
+
+              "schema" : {
+
+                "$ref" : "#/components/schemas/BikeRequestDTO"
+
+              }
+
+            }
+
+          }
+
+        },
+
+        "responses" : {
+
+          "201 Created" : {
+
+            "description" : "Bike was added"
+
+          },
+
+          "400 Bad Request" : {
+
+            "description" : "Request body is malformed"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/bike/{bikeId}/component" : {
+
+      "get" : {
+
+        "summary" : "Find all components fit to a concrete bike",
+
+        "operationId" : "getBikeComponents",
+
+        "parameters" : [ {
+
+          "name" : "bikeId",
+
+          "in" : "path",
+
+          "required" : true,
+
+          "schema" : {
+
+            "type" : "integer",
+
+            "format" : "int64"
+
+          }
+
+        } ],
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "List of components on a concrete bike"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "404 Not Found" : {
+
+            "description" : "Bike is not registered"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/ComponentResponseDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/component" : {
+
+      "get" : {
+
+        "summary" : "Find all components created by the current user",
+
+        "operationId" : "getComponents",
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "List of found components"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/ComponentResponseDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      },
+
+      "post" : {
+
+        "summary" : "Create a new component belonging to the current user",
+
+        "operationId" : "insertComponent",
+
+        "requestBody" : {
+
+          "content" : {
+
+            "application/json" : {
+
+              "schema" : {
+
+                "$ref" : "#/components/schemas/ComponentRequestDTO"
+
+              }
+
+            }
+
+          }
+
+        },
+
+        "responses" : {
+
+          "201 Created" : {
+
+            "description" : "Component was added"
+
+          },
+
+          "400 Bad Request" : {
+
+            "description" : "Request body is malformed"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Current user is either unauthenticated or unauthorized to perform this action"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/component-type" : {
+
+      "get" : {
+
+        "summary" : "List all predefined component types available to users",
+
+        "operationId" : "findAll",
+
+        "responses" : {
+
+          "default" : {
+
+            "description" : "default response",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/ComponentTypeDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/manufacturer" : {
+
+      "get" : {
+
+        "summary" : "List all predefined manufacturers available to users",
+
+        "operationId" : "getManufacturers",
+
+        "responses" : {
+
+          "default" : {
+
+            "description" : "default response",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/ManufacturerDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/ride" : {
+
+      "get" : {
+
+        "summary" : "Find all rides performed by the current user",
+
+        "operationId" : "getRides",
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "List of rides"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/RideResponseDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      },
+
+      "post" : {
+
+        "summary" : "Add a new ride performed by the current user",
+
+        "operationId" : "addRide",
+
+        "requestBody" : {
+
+          "content" : {
+
+            "application/json" : {
+
+              "schema" : {
+
+                "$ref" : "#/components/schemas/RideRequestDTO"
+
+              }
+
+            }
+
+          }
+
+        },
+
+        "responses" : {
+
+          "201 Created" : {
+
+            "description" : "Ride was added"
+
+          },
+
+          "400 Bad Request" : {
+
+            "description" : "Request body is malformed"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/user/auth" : {
+
+      "post" : {
+
+        "summary" : "Authenticate a user",
+
+        "operationId" : "authenticate",
+
+        "requestBody" : {
+
+          "content" : {
+
+            "application/json" : {
+
+              "schema" : {
+
+                "$ref" : "#/components/schemas/AuthRequestDTO"
+
+              }
+
+            }
+
+          }
+
+        },
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "Authorized successfully"
+
+          },
+
+          "401 Unauthorized" : {
+
+            "description" : "Authentication failure"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/user/deauth" : {
+
+      "post" : {
+
+        "summary" : "Deauthenticate the current user",
+
+        "operationId" : "deauthenticate",
+
+        "responses" : {
+
+          "200 OK" : {
+
+            "description" : "Deauthenticated successfully"
+
+          },
+
+          "default" : {
+
+            "description" : "An error has occurred"
+
+          }
+
+        }
+
+      }
+
+    },
+
+    "/user" : {
+
+      "get" : {
+
+        "summary" : "Find all registered users. Only for administrator",
+
+        "operationId" : "getUsers",
+
+        "responses" : {
+
+          "default" : {
+
+            "description" : "default response",
+
+            "content" : {
+
+              "application/json" : {
+
+                "schema" : {
+
+                  "type" : "array",
+
+                  "items" : {
+
+                    "$ref" : "#/components/schemas/UserDTO"
+
+                  }
+
+                }
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  },
+
+  "components" : {
+
+    "schemas" : {
+
+      "ComponentRequestDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "manufacturerId" : {
+
+            "type" : "integer",
+
+            "description" : "Component manufacturer ID",
+
+            "format" : "int64"
+
+          },
+
+          "componentTypeId" : {
+
+            "type" : "integer",
+
+            "description" : "Component type ID",
+
+            "format" : "int64"
+
+          },
+
+          "name" : {
+
+            "type" : "string",
+
+            "description" : "Component name"
+
+          },
+
+          "purchaseDate" : {
+
+            "type" : "string",
+
+            "description" : "Purchase date",
+
+            "format" : "date"
+
+          }
+
+        }
+
+      },
+
+      "ManufacturerDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "Manufacturer ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "name" : {
+
+            "type" : "string",
+
+            "description" : "Manufacturer representation"
+
+          }
+
+        }
+
+      },
+
+      "ComponentResponseDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "Component ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "userId" : {
+
+            "type" : "integer",
+
+            "description" : "User ID owning this component",
+
+            "format" : "int64"
+
+          },
+
+          "componentTypeId" : {
+
+            "type" : "integer",
+
+            "description" : "Component type ID",
+
+            "format" : "int64"
+
+          },
+
+          "manufacturerId" : {
+
+            "type" : "integer",
+
+            "description" : "Component manufacturer ID",
+
+            "format" : "int64"
+
+          },
+
+          "bikeId" : {
+
+            "type" : "integer",
+
+            "description" : "Optional bike ID this component is currently fit to",
+
+            "format" : "int64"
+
+          },
+
+          "name" : {
+
+            "type" : "string",
+
+            "description" : "Component name"
+
+          },
+
+          "purchaseDate" : {
+
+            "type" : "string",
+
+            "description" : "Purchase date"
+
+          }
+
+        }
+
+      },
+
+      "BikeResponseDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "Bike ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "userId" : {
+
+            "type" : "integer",
+
+            "description" : "User ID owning the bike",
+
+            "format" : "int64"
+
+          },
+
+          "manufacturerId" : {
+
+            "type" : "integer",
+
+            "description" : "Bike manufacturer ID",
+
+            "format" : "int64"
+
+          },
+
+          "model" : {
+
+            "type" : "string",
+
+            "description" : "Model"
+
+          },
+
+          "modelYear" : {
+
+            "type" : "integer",
+
+            "description" : "Model year",
+
+            "format" : "int64"
+
+          },
+
+          "purchaseDate" : {
+
+            "type" : "string",
+
+            "description" : "Purchase date"
+
+          },
+
+          "description" : {
+
+            "type" : "string",
+
+            "description" : "Optional description"
+
+          },
+
+          "componentCount" : {
+
+            "type" : "integer",
+
+            "description" : "Number of components currently fit to the bike",
+
+            "format" : "int32"
+
+          }
+
+        }
+
+      },
+
+      "RideRequestDTO" : {
+
+        "required" : [ "date" ],
+
+        "type" : "object",
+
+        "properties" : {
+
+          "bikeId" : {
+
+            "type" : "integer",
+
+            "description" : "Ridden bike ID",
+
+            "format" : "int64"
+
+          },
+
+          "date" : {
+
+            "type" : "string",
+
+            "description" : "Date of ride",
+
+            "format" : "date"
+
+          },
+
+          "duration" : {
+
+            "type" : "integer",
+
+            "description" : "Duration in minutes",
+
+            "format" : "int64"
+
+          },
+
+          "distance" : {
+
+            "type" : "integer",
+
+            "description" : "Distance in kilometer",
+
+            "format" : "int64"
+
+          }
+
+        }
+
+      },
+
+      "UserDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "User ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "login" : {
+
+            "type" : "string",
+
+            "description" : "User login"
+
+          },
+
+          "password" : {
+
+            "type" : "string",
+
+            "description" : "User password"
+
+          },
+
+          "rideCount" : {
+
+            "type" : "integer",
+
+            "description" : "Number of rides performed by the user",
+
+            "format" : "int32"
+
+          },
+
+          "bikeCount" : {
+
+            "type" : "integer",
+
+            "description" : "Number of bikes owned by the user",
+
+            "format" : "int32"
+
+          },
+
+          "componentCount" : {
+
+            "type" : "integer",
+
+            "description" : "Number of components registered by the user",
+
+            "format" : "int32"
+
+          }
+
+        }
+
+      },
+
+      "AuthRequestDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "login" : {
+
+            "type" : "string",
+
+            "description" : "User login"
+
+          },
+
+          "password" : {
+
+            "type" : "string",
+
+            "description" : "User password"
+
+          }
+
+        }
+
+      },
+
+      "RideResponseDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "Ride ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "userId" : {
+
+            "type" : "integer",
+
+            "description" : "User ID performed this ride",
+
+            "format" : "int64"
+
+          },
+
+          "bikeId" : {
+
+            "type" : "integer",
+
+            "description" : "Bike ID the ride was performed on",
+
+            "format" : "int64"
+
+          },
+
+          "date" : {
+
+            "type" : "string",
+
+            "description" : "Date of ride"
+
+          },
+
+          "distance" : {
+
+            "type" : "integer",
+
+            "description" : "Ridden distance in kilometer",
+
+            "format" : "int64"
+
+          },
+
+          "duration" : {
+
+            "type" : "integer",
+
+            "description" : "Ridden distance in minutes",
+
+            "format" : "int64"
+
+          },
+
+          "componentCount" : {
+
+            "type" : "integer",
+
+            "description" : "Number of components that were fit on the bike during the ride",
+
+            "format" : "int32"
+
+          }
+
+        }
+
+      },
+
+      "BikeRequestDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "manufacturerId" : {
+
+            "type" : "integer",
+
+            "description" : "Bike manufacturer ID",
+
+            "format" : "int64"
+
+          },
+
+          "model" : {
+
+            "type" : "string",
+
+            "description" : "Bike model"
+
+          },
+
+          "modelYear" : {
+
+            "type" : "integer",
+
+            "description" : "Model year",
+
+            "format" : "int64"
+
+          },
+
+          "purchaseDate" : {
+
+            "type" : "string",
+
+            "description" : "Purchase date",
+
+            "format" : "date"
+
+          },
+
+          "description" : {
+
+            "type" : "string",
+
+            "description" : "Optional description"
+
+          }
+
+        }
+
+      },
+
+      "ComponentTypeDTO" : {
+
+        "type" : "object",
+
+        "properties" : {
+
+          "id" : {
+
+            "type" : "integer",
+
+            "description" : "Component type ID in the database",
+
+            "format" : "int64"
+
+          },
+
+          "name" : {
+
+            "type" : "string",
+
+            "description" : "Component type representation"
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
